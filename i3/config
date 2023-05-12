@@ -36,8 +36,8 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
@@ -51,7 +51,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -show drun"
+bindsym $mod+d exec --no-startup-id "~/.config/polybar/colorblocks/scripts/launcher.sh"
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -166,10 +166,10 @@ mode "resize" {
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 2 px or 2 ppt
-        bindsym Down resize grow height 2 px or 2 ppt
-        bindsym Up resize shrink height 2 px or 2 ppt
-        bindsym Right resize grow width 2 px or 2 ppt
+        bindsym Left resize shrink width 1 px or 1 ppt
+        bindsym Down resize grow height 1 px or 1 ppt
+        bindsym Up resize shrink height 1 px or 1 ppt
+        bindsym Right resize grow width 1 px or 1 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -178,7 +178,7 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-bindsym $mod+z exec i3 gaps inner all toggle 10
+bindsym $mod+z exec i3 gaps inner all toggle 6 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -187,14 +187,18 @@ bindsym $mod+z exec i3 gaps inner all toggle 10
 #}
 
 for_window [class=".*"] border pixel 2 2
-for_window [class="steamwebhelper"] floating enable
-exec i3 gaps inner all set 10
-#Startup It ems
-exec picom
+for_window [title="Steam Input On-screen Keyboard"] floating enable
+exec i3 gaps inner all set 6 
+#Startup Items
+exec steam
+exec picom --experimental-backends
 exec /home/deck/docked.sh
 exec nitrogen --restore
-exec steam
+exec dunst
+exec /home/deck/.config/polybar/launch.sh --colorblocks
+exec /usr/lib/polkit-kde-authentication-agent-1
 
+#assign [title="Steam"] $ws4
 
 #Colors
 
